@@ -12,8 +12,8 @@ RUN apt-get update && apt-get install -y \
 RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-RUN pip install torch==2.13.0+cu130 torchvision==0.28.0+cu130 \
-    --index-url https://download.pytorch.org/whl/cu130
+RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu126
+RUN pip install runpod aiohttp
 
 WORKDIR /app
 RUN git clone --depth 1 https://github.com/comfyanonymous/ComfyUI.git
@@ -23,11 +23,6 @@ RUN pip install -r requirements.txt
 RUN git clone --depth 1 https://github.com/Lightricks/ComfyUI-LTXVideo.git \
     custom_nodes/ComfyUI-LTXVideo && \
     cd custom_nodes/ComfyUI-LTXVideo && pip install -r requirements.txt
-
-RUN git clone --depth 1 https://github.com/Lightricks/WhatDreamsCost-ComfyUI.git \
-    custom_nodes/WhatDreamsCost-ComfyUI
-
-RUN pip install runpod aiohttp
 
 RUN mkdir -p /models/checkpoints /models/vae /models/text_encoders
 RUN ln -sf /models/checkpoints /app/ComfyUI/models/checkpoints && \
